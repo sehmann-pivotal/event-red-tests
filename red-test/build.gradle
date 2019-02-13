@@ -19,7 +19,7 @@ ext {
 }
 
 dependencies {
-//	implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+	implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
 //	implementation 'org.springframework.cloud.stream.app:spring-cloud-starter-stream-source-rabbit'
 //	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'org.springframework.boot:spring-boot-starter'

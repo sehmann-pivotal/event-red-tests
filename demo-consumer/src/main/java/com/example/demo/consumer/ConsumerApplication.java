@@ -27,5 +27,10 @@ public class ConsumerApplication {
 	public List<String> getMessages() {
 		return messageService.getMessages();
 	}
+
+	@GetMapping("/reset")
+	public void reset() {
+		messageService.reset();
+	}
 }
 

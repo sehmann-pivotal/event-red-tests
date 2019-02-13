@@ -24,4 +24,8 @@ public class MessageService {
     public List<String> getMessages() {
         return messages;
     }
+
+    public void reset() {
+        messages = new ArrayList<>();
+    }
 }

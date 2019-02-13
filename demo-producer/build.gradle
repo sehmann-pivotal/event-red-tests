@@ -20,12 +20,10 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
-//	implementation 'org.springframework.cloud.stream.app:spring-cloud-starter-stream-source-rabbit'
-//	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-//	implementation 'org.springframework.cloud:spring-cloud-stream'
-//	implementation 'org.springframework.cloud:spring-cloud-stream-rabbit'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-web-test'
 	testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
 	implementation 'com.jayway.restassured:rest-assured:2.9.0'
 }

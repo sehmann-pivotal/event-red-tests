@@ -11,11 +11,11 @@ echo '============================================'
 cd ../demo-consumer && ./gradlew bootRun > consumer.log &
 
 
-status_code=$(curl -s -o /dev/null -w "%{http_code}" -X POST -d "sample message" http://localhost:1234/makeMessage)
+status_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:1234/actuator/health)
 i=0
 while [[ "$status_code" -ne "200" ]] && [[ "$i" -lt 20 ]]; do
     sleep 1
-    status_code=$(curl -s -o /dev/null -w "%{http_code}" -X POST -d "sample message" http://localhost:1234/makeMessage)
+    status_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:1234/actuator/health)
     i=$[$i+1]
     echo "...Waiting for Producer, try $i"
 done
