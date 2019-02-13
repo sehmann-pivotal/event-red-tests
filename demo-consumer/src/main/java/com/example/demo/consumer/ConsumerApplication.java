@@ -13,7 +13,7 @@ import java.util.List;
 
 @EnableBinding(Sink.class)
 @SpringBootApplication
-@RestController
+@RestController("/")
 public class ConsumerApplication {
 
 	@Autowired

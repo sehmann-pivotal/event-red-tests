@@ -1,4 +1,4 @@
-package com.example.demo.producer;
+package com.example.demo.redtest;
 
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;

@@ -1,0 +1,74 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.2.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+	set('springCloudVersion', 'Greenwich.RELEASE')
+}
+
+dependencies {
+//	implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+//	implementation 'org.springframework.cloud.stream.app:spring-cloud-starter-stream-source-rabbit'
+//	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter'
+//	implementation 'org.springframework.cloud:spring-cloud-stream'
+//	implementation 'org.springframework.cloud:spring-cloud-stream-rabbit'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.jayway.restassured:rest-assured:2.9.0'
+//	testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+tasks.withType(Test) {
+
+	testLogging {
+		events "FAILED",
+				"SKIPPED",
+				"STANDARD_OUT",
+				"STANDARD_ERROR"
+
+		exceptionFormat "FULL"
+		showExceptions true
+		showCauses true
+		showStackTraces true
+
+		// set options for log level DEBUG and INFO
+		debug {
+			events "STARTED",
+					"FAILED",
+					"PASSED",
+					"SKIPPED",
+					"STANDARD_ERROR",
+					"STANDARD_OUT"
+			exceptionFormat "FULL"
+		}
+		info.events = debug.events
+		info.exceptionFormat = debug.exceptionFormat
+
+		afterSuite { desc, result ->
+			if (!desc.parent) { // will match the outermost suite
+				def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+				def startItem = '|  ', endItem = '  |'
+				def repeatLength = startItem.length() + output.length() + endItem.length()
+				println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+			}
+		}
+	}
+}

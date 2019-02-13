@@ -15,8 +15,9 @@ public class MessageService {
     private List<String> messages = new ArrayList<>();
 
     @StreamListener(Sink.INPUT)
-    public void getMessage(String message) {
+    public void getMessage(String message) throws InterruptedException {
         System.out.println("This was the message: "+message);
+        Thread.sleep(1000);
         messages.add(message);
     }
 

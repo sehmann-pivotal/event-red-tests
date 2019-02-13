@@ -1,11 +1,10 @@
-package com.example.demo.producer;
+package com.example.demo.redtest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.cloud.stream.test.binder.MessageCollector;
 import org.springframework.messaging.Message;
 import org.springframework.test.annotation.DirtiesContext;
@@ -36,7 +35,6 @@ public class ProducerApplicationTest {
         BlockingQueue<Message<?>> messages = this.collector.forChannel(channels.messageChannel());
 
 
-        // make a get request to /makeMessage
 
         String path = "http://localhost:" + port + "/makeMessage";
         given().when().body("Message 1").post(path).then().statusCode(200);
