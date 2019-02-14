@@ -23,7 +23,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-web-test'
 	testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
 	implementation 'com.jayway.restassured:rest-assured:2.9.0'
 }
