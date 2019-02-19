@@ -41,7 +41,7 @@ fi
 echo '============================================'
 echo '======    RUNNING TESTS    ======'
 echo '============================================'
-./gradlew clean test
+./gradlew clean testx
 
 exit_value=$?
 

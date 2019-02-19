@@ -2,7 +2,6 @@ package com.example.demo.consumer;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
-import com.jayway.restassured.response.ResponseBody;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.cloud.stream.test.binder.MessageCollector;
 import org.springframework.integration.channel.AbstractMessageChannel;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -19,6 +20,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -30,8 +32,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext
 public class ConsumerGreenTest {
     @Autowired
-    private Sink channels;
+    private Sink sinkChannel;
     private AbstractMessageChannel input;
+
+    @Autowired
+    private MessageCollector collector;
+    @Autowired
+    private Source finalMessageChannel;
 
     @LocalServerPort
     private int port;
@@ -39,7 +46,7 @@ public class ConsumerGreenTest {
 
     @Before
     public void setup() {
-        input = (AbstractMessageChannel) this.channels.input();
+        input = (AbstractMessageChannel) this.sinkChannel.input();
     }
 
     @Test
@@ -81,6 +88,16 @@ public class ConsumerGreenTest {
         assertThat(messages.get(1)).isEqualTo("bar");
         assertThat(bodyJson.getString("[0]")).isEqualTo("foo");
         assertThat(bodyJson.getString("[1]")).isEqualTo("bar");
+    }
+
+    @Test
+    public void producesFinalEvent() {
+        BlockingQueue<Message<?>> messages = this.collector.forChannel(finalMessageChannel.output());
+
+        input.send(new GenericMessage<>("foo"));
+
+        assertThat(messages).hasSize(1);
+        assertThat(messages.poll().getPayload()).isEqualTo("final event!");
     }
 
 }
